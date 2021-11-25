@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 export class Loading extends Component {
-    constructor(props) {
+    constructor(props) {//fetch
         super(props);
     }
     render() {

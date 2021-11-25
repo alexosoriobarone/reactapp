@@ -12,9 +12,14 @@ export class List extends Component {
     }
     componentDidMount() {
         this.setState({isLoading:true});
-        setTimeout(() =>{
-            this.setState({isLoading:false,products:[{name:'Azucar'},{name:'Panela'},{name:'Pan'}]});
-        },1000);
+       fetch('http://localhost:8021/api/v1/products')
+       .then((pro)=>
+           pro.json()
+       ).then((data)=>{
+        this.setState({isLoading:false,products:data});  
+       });
+       
+        
         
 
     }
