@@ -17,7 +17,7 @@ export class List extends Component {
            pro.json()
        ).then((data)=>{
         this.setState({isLoading:false,products:data});  
-       });
+       }).catch(console.error);
        
         
         
