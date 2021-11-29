@@ -1,4 +1,4 @@
- const getProducts = async() => {
+ export default getProducts = async() => {
      return await fetch('http://localhost:8021/api/v1/products')
          .then((pro) =>
              pro.json()
@@ -7,7 +7,7 @@
          }).catch(console.error);
  }
 
- const addProd = (options) => {
+ export const addProd = (options) => {
      fetch('http://localhost:8021/api/v1/products/add', options)
          .then((res) =>
              res.json()
@@ -16,5 +16,3 @@
 
          }).catch(console.error);
  }
-
- export default [getProducts, addProd];
