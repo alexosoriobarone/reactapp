@@ -1,4 +1,5 @@
-import React,{Component,useState} from 'react';
+import React,{Component} from 'react';
+
 import './Producto.css';
 class ProductoView extends Component {
    constructor(props) {
@@ -6,6 +7,7 @@ class ProductoView extends Component {
        this.handleInputChange = this.handleInputChange.bind(this);
        this.enviarDatos = this.enviarDatos.bind(this);
        this.state= {
+           update:false,
            description:'',
            price:0,
            qty:0,
@@ -19,13 +21,33 @@ class ProductoView extends Component {
 }
    
    enviarDatos=(event)=>{
-       console.log(this.state.category);
+    
     event.preventDefault();
-   
+    const { onLoad } = this.props;
+    let datos={description:this.state.description,
+    price:parseInt(this.state.price),category:this.state.category,
+     qty:parseInt(this.state.qty)};//Object
+
+     let options={
+         method:'POST',
+         body:JSON.stringify(datos),
+         headers:{
+            "Content-type": "application/json; charset=UTF-8"
+         }
+     };
+
+     fetch('http://localhost:8021/api/v1/products/add',options)
+     .then((res)=>
+         res.json()
+     ).then((data)=>{
+         alert(data.status);
+         onLoad();
+     }).catch(console.error);
 
    }
    
    render() {
+       const {onLoad }=this.props;
    return (<React.Fragment>
     <form className="producto" onSubmit={this.enviarDatos}>
             <label htmlFor="description">Description</label>
@@ -44,7 +66,12 @@ class ProductoView extends Component {
             <input type="submit" value="Save!"/>
        
     </form>
-   <span>{this.state.description}</span>
+ 
+        
+    
+        
+ 
+  
    </React.Fragment>
    );
    }

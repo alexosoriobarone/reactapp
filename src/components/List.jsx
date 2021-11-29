@@ -1,28 +1,31 @@
 import React,{Component} from 'react';
 import {Loading} from './Loading';
 import Item from './Item';
-
-export class List extends Component {
+import getProducts from '../API/Api';
+import ProductView from './ProductView';
+export default class List extends Component {
+    
     constructor(props){
         super(props);
+        
         this.state = {
             isLoading: false,
             products:null
         };
+        this.loadProds=this.loadProds.bind(this);
     }
     componentDidMount() {
-        this.setState({isLoading:true});
-       fetch('http://localhost:8021/api/v1/products')
-       .then((pro)=>
-           pro.json()
-       ).then((data)=>{
-        this.setState({isLoading:false,products:data});  
-       }).catch(console.error);
+        this.loadProds();
        
-        
-        
-
+       
     }
+     loadProds=() => {
+        this.setState({isLoading:true});
+        let data=getProducts();
+        data.then((pro)=>{
+            this.setState({isLoading:false,products:pro}); 
+        }).catch(console.error); 
+     }
    render() {
        const {isLoading,products} = this.state;
        if(isLoading){
@@ -34,6 +37,7 @@ export class List extends Component {
        }
        return (
            <React.Fragment>
+                <ProductView  onLoad={this.loadProds}></ProductView>
                <div>
                    {
                      products &&  products.map((ite,i)=>{
@@ -41,6 +45,7 @@ export class List extends Component {
                        })
                    }
                </div>
+              
            </React.Fragment>
        );
    }
