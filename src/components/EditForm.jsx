@@ -10,6 +10,22 @@ class EditForm extends Component {
             _id:''
         }
     }
+    componentDidMount() {
+        const {proData}=this.props;
+        if(proData!==null){
+            this.setState({description:proData.description,
+                category:proData.category,price:proData.price,
+            qty:proData.qty,_id:proData._id});
+        }
+    }
+    componentDidUpdate(prevProps) {
+        const {proData}=this.props;
+       if(this.props!==prevProps){
+        this.setState({description:proData.description,
+            category:proData.category,price:proData.price,
+        qty:proData.qty,_id:proData._id});
+       }
+    }
     handleInputChange=(event)=>{
         this.setState({[event.target.name]:event.target.value});
     }
@@ -39,6 +55,7 @@ class EditForm extends Component {
                 <label htmlFor="qty">Quantity</label>
                 <input value={this.state.qty} type="number" className="form-control"  name="qty" id="qty" onChange={this.handleInputChange}/>
                 </div>
+                <input type="hidden" value={this.state._id} name="_id" id='_id'/>
                 <button className='btn btn-success btn-sm' type="button" >Update!</button>
             </form>
         </div>
