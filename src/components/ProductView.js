@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-
+import {addProd} from '../API/Api';
 import './Producto.css';
 class ProductoView extends Component {
    constructor(props) {
@@ -14,10 +14,13 @@ class ProductoView extends Component {
            category:''
        }
    }
+   
     handleInputChange = (event) => {
     let name=event.target.name;
     // console.log(event.target.value)
     this.setState({[name]:event.target.value});
+     
+     
 }
    
    enviarDatos=(event)=>{
@@ -35,38 +38,54 @@ class ProductoView extends Component {
             "Content-type": "application/json; charset=UTF-8"
          }
      };
-
-     fetch('http://localhost:8021/api/v1/products/add',options)
+     let status=addProd(options);
+     status.then((data)=>{
+         alert(data);
+        onLoad();
+     });
+    
+     /*fetch('http://localhost:8021/api/v1/products/add',options)
      .then((res)=>
          res.json()
      ).then((data)=>{
          alert(data.status);
          onLoad();
-     }).catch(console.error);
+     }).catch(console.error);*/
 
    }
    
    render() {
-       const {onLoad }=this.props;
+   
+       
    return (<React.Fragment>
-    <form className="producto" onSubmit={this.enviarDatos}>
+       <div className="container">
+    <form  className="row" onSubmit={this.enviarDatos}>
+        <div className="mb-3">
             <label htmlFor="description">Description</label>
-            <input type="text" name="description" id="description" onChange={this.handleInputChange}/>
+            <input type="text" className="form-control"  name="description" id="description" onChange={this.handleInputChange}/>
+            </div>
+            <div className="mb-3">
             <label htmlFor="price">Price</label>
-            <input type="number" name="price" id="price" onChange={this.handleInputChange}/>
+            <input type="number" className="form-control"  name="price" id="price" onChange={this.handleInputChange}/>
+            </div>
+            <div className="mb-3">
             <label htmlFor="category">Category</label>
-            <select id="category" name="category" onChange={this.handleInputChange}>
+            <select className="form-control" id="category" name="category"  onChange={this.handleInputChange}>
                 <option value="Deporte"  >Deporte</option>
                 <option value="Casual" >Casual</option>
                 <option value="Familiar" >Familiar</option>
                 <option value="Dormitorio" >Dormitorio</option>
             </select>
+            </div>
+            <div className="mb-3">
             <label htmlFor="qty">Quantity</label>
-            <input type="number" name="qty" id="qty" onChange={this.handleInputChange}/>
-            <input type="submit" value="Save!"/>
-       
+            <input type="number" className="form-control"  name="qty" id="qty" onChange={this.handleInputChange}/>
+            </div>
+            <button className='btn btn-success btn-sm' type="button" >Save!</button>
+           
+
     </form>
- 
+    </div>
         
     
         

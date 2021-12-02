@@ -1,8 +1,9 @@
 import React,{Component} from 'react';
 import {Loading} from './Loading';
 import Item from './Item';
-import getProducts from '../API/Api';
+import {getProducts} from '../API/Api';
 import ProductView from './ProductView';
+import EditForm from './EditForm';
 export default class List extends Component {
     
     constructor(props){
@@ -10,14 +11,19 @@ export default class List extends Component {
         
         this.state = {
             isLoading: false,
-            products:null
+            products:null,
+            isUpdate:false,
+            product:{price:0,decription:'',category:'',qty:0}
         };
         this.loadProds=this.loadProds.bind(this);
+        this.updateForm=this.updateForm.bind(this);
     }
-    componentDidMount() {
-        this.loadProds();
-       
-       
+    componentDidMount() {//cuando se monta el componente. por primer vez
+        this.loadProds(); 
+    }
+    updateForm=(datos)=>{
+        this.setState({isUpdate:true,product:datos});
+        
     }
      loadProds=() => {
         this.setState({isLoading:true});
@@ -35,15 +41,37 @@ export default class List extends Component {
         </div>
        );
        }
+       const renderForm=()=>{
+        if(!this.state.isUpdate){
+        return( <ProductView   onLoad={this.loadProds}></ProductView>);
+        }else{
+            return (<EditForm proData={this.state.product}></EditForm>);
+        }
+       }
        return (
            <React.Fragment>
-                <ProductView  onLoad={this.loadProds}></ProductView>
+               {
+                renderForm()   
+               }
                <div>
+                   <table className='table table-hover table-bordered'>
+                    <thead>
+                        <tr>
+                        <th>Id</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                    {
                      products &&  products.map((ite,i)=>{
-                        return(<Item key={i} data={ite}></Item>)
+                        return(<Item onUpdate={this.updateForm}  key={i} data={ite}></Item>)
                        })
                    }
+                   </tbody>
+                  </table>
                </div>
               
            </React.Fragment>
