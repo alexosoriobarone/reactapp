@@ -1,10 +1,14 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
-const Item=({data,onUpdate})=>{ 
+const Item=({data,onUpdate,onDelete})=>{ 
     const editForm=(value,e)=>{
        e.preventDefault();
       onUpdate(value);
       
+    }
+    const deletePro=(id,e)=>{
+      e.preventDefault();
+      onDelete(id);
     }
     return (
       <tr>
@@ -13,7 +17,7 @@ const Item=({data,onUpdate})=>{
         <td>{data.category}</td>
         <td>{data.price}</td>
         <td>{data.qty}</td>
-        <td><button type="button" className="btn btn-danger">
+        <td><button type="button" onClick={(e)=>deletePro(data._id,e)} className="btn btn-danger">
           Eliminar
           </button>
           <button type="button" onClick={(e)=>editForm(data,e)} className="btn btn-primary">

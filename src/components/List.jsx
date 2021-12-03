@@ -4,6 +4,8 @@ import Item from './Item';
 import {getProducts} from '../API/Api';
 import ProductView from './ProductView';
 import EditForm from './EditForm';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 export default class List extends Component {
     
     constructor(props){
@@ -31,6 +33,53 @@ export default class List extends Component {
         data.then((pro)=>{
             this.setState({isLoading:false,products:pro}); 
         }).catch(console.error); 
+     }
+     deleteProducts=(id) =>{
+        const showalert = withReactContent(Swal);
+            showalert.fire({
+                title:'Alert delete record',
+                text:'Realmente quieres borrar este registro',
+                footer:'App react',
+                showCancelButton:true,
+                confirmButtonText:'Sí, Eliminar',
+                cancelButtonText:'No, cancelar'
+            }).then((confirm)=>{
+                if(confirm.value){
+                    fetch(`http://localhost:8021/api/v1/products/remove/${id}`,{
+                        method:'DELETE',
+                        headers:{'Content-Type': 'application/json'}
+                    }).then((res)=>res.json()).
+                    then((data)=>{
+                        this.loadProds();
+                        return showalert.fire(<p>data.status</p>);
+                    });
+                }
+                
+            });
+            /*
+            Showalert.fire({
+      title: "¿Estas seguro?",
+      text: "Una vez eliminado no podras recuperarlo",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Si, eliminar",
+      cancelButtonText: "No, cancelar",
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire("Eliminado!", "El producto ha sido eliminado", "success");
+        this.setState({ isLoading: true });
+        let data = getProducts();
+        data
+          .then((pro) => {
+            this.setState({ isLoading: false, products: pro });
+          })
+          .catch(console.error);
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Cancelado", "El producto no ha sido eliminado", "error");
+      }
+    });
+
+            */
      }
    render() {
        const {isLoading,products} = this.state;
@@ -67,7 +116,7 @@ export default class List extends Component {
                     <tbody>
                    {
                      products &&  products.map((ite,i)=>{
-                        return(<Item onUpdate={this.updateForm}  key={i} data={ite}></Item>)
+                        return(<Item onDelete={this.deleteProducts} onUpdate={this.updateForm}  key={i} data={ite}></Item>)
                        })
                    }
                    </tbody>

@@ -1,4 +1,6 @@
 import React,{Component} from 'react';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 class EditForm extends Component {
     constructor(props) {
         super(props);
@@ -9,7 +11,8 @@ class EditForm extends Component {
             qty:0,
             _id:''
         }
-        this.updateProduct=this.updateProduct.bind(this);// colocar en el contexto
+        this.updateProduct=this.updateProduct.bind(this);
+        
     }
     componentDidMount() {
         const {proData}=this.props;
@@ -46,7 +49,12 @@ class EditForm extends Component {
         };
         fetch(url, requestData).
         then((res)=>res.json()).then((data)=>{
-            alert(data.status);
+            const showalert = withReactContent(Swal);
+            showalert.fire({
+                title:'Information',
+                text:data.status,
+                footer:'App react'
+            });
             this.props.updateList();
         });
 
