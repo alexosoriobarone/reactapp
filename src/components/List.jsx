@@ -45,7 +45,7 @@ export default class List extends Component {
         if(!this.state.isUpdate){
         return( <ProductView   onLoad={this.loadProds}></ProductView>);
         }else{
-            return (<EditForm proData={this.state.product}></EditForm>);
+            return (<EditForm updateList={this.loadProds} proData={this.state.product}></EditForm>);
         }
        }
        return (

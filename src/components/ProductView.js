@@ -59,7 +59,7 @@ class ProductoView extends Component {
        
    return (<React.Fragment>
        <div className="container">
-    <form  className="row" onSubmit={this.enviarDatos}>
+    <form  className="row" >
         <div className="mb-3">
             <label htmlFor="description">Description</label>
             <input type="text" className="form-control"  name="description" id="description" onChange={this.handleInputChange}/>
@@ -81,8 +81,9 @@ class ProductoView extends Component {
             <label htmlFor="qty">Quantity</label>
             <input type="number" className="form-control"  name="qty" id="qty" onChange={this.handleInputChange}/>
             </div>
-            <button className='btn btn-success btn-sm' type="button" >Save!</button>
-           
+            <div className='col'>
+            <button title="Save product" className='btn btn-success btn-lg' onClick={this.enviarDatos} type="button" ><i className="bi bi-check-circle"></i></button>
+            </div>
 
     </form>
     </div>

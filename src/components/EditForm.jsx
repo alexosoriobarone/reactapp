@@ -9,6 +9,7 @@ class EditForm extends Component {
             qty:0,
             _id:''
         }
+        this.updateProduct=this.updateProduct.bind(this);// colocar en el contexto
     }
     componentDidMount() {
         const {proData}=this.props;
@@ -28,6 +29,27 @@ class EditForm extends Component {
     }
     handleInputChange=(event)=>{
         this.setState({[event.target.name]:event.target.value});
+    }
+    updateProduct=(event)=>{
+        event.preventDefault();
+        let url=`http://localhost:8021/api/v1/products/update/${this.state._id}`;
+        let dtaPro={
+            description:this.state.description,price:this.state.price,
+            category:this.state.category,
+        qty:this.state.qty};
+        const requestData={
+            method:'PUT',
+            body:JSON.stringify(dtaPro),
+            headers:{
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        };
+        fetch(url, requestData).
+        then((res)=>res.json()).then((data)=>{
+            alert(data.status);
+            this.props.updateList();
+        });
+
     }
     render(){
         return(
@@ -56,7 +78,9 @@ class EditForm extends Component {
                 <input value={this.state.qty} type="number" className="form-control"  name="qty" id="qty" onChange={this.handleInputChange}/>
                 </div>
                 <input type="hidden" value={this.state._id} name="_id" id='_id'/>
-                <button className='btn btn-success btn-sm' type="button" >Update!</button>
+                <div className="col">
+                <button onClick={this.updateProduct} className='btn btn-success btn-lg' type="button" >Update!</button>
+                </div>
             </form>
         </div>
             </React.Fragment>
