@@ -8,7 +8,7 @@ export const getProducts = async() => {
 }
 
 export const addProd = async(options) => {
-    await fetch('http://localhost:8021/api/v1/products/add', options)
+    return await fetch('http://localhost:8021/api/v1/products/add', options)
         .then((res) => {
             console.log(res.total);
             return res.json()
@@ -16,4 +16,6 @@ export const addProd = async(options) => {
             return data;
 
         }).catch(console.error);
+
+
 }

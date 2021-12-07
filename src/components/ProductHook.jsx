@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React from 'react';
 import {useForm} from "react-hook-form";
 export default function ProductHook(){
     const {register,handleSubmit,formState:{errors}}=useForm();
