@@ -9,9 +9,11 @@ export const getProducts = async() => {
 
 export const addProd = async(options) => {
     await fetch('http://localhost:8021/api/v1/products/add', options)
-        .then((res) =>
-            res.json()
-        ).then((data) => {
+        .then((res) => {
+            console.log(res.total);
+            return res.json()
+        }).then((data) => {
             return data;
+
         }).catch(console.error);
 }

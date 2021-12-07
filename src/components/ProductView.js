@@ -71,6 +71,7 @@ class ProductoView extends Component {
             <div className="mb-3">
             <label htmlFor="category">Category</label>
             <select className="form-control" id="category" name="category"  onChange={this.handleInputChange}>
+            <option value=""  selected>Select a Category</option>
                 <option value="Deporte"  >Deporte</option>
                 <option value="Casual" >Casual</option>
                 <option value="Familiar" >Familiar</option>

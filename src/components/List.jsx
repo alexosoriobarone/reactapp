@@ -30,7 +30,9 @@ export default class List extends Component {
      loadProds=() => {
         this.setState({isLoading:true});
         let data=getProducts();
+       
         data.then((pro)=>{
+            
             this.setState({isLoading:false,products:pro}); 
         }).catch(console.error); 
      }
@@ -51,35 +53,12 @@ export default class List extends Component {
                     }).then((res)=>res.json()).
                     then((data)=>{
                         this.loadProds();
-                        return showalert.fire(<p>data.status</p>);
+                        return showalert.fire(<p>{data.status}</p>);
                     });
                 }
                 
             });
-            /*
-            Showalert.fire({
-      title: "¿Estas seguro?",
-      text: "Una vez eliminado no podras recuperarlo",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Si, eliminar",
-      cancelButtonText: "No, cancelar",
-    }).then((result) => {
-      if (result.value) {
-        Swal.fire("Eliminado!", "El producto ha sido eliminado", "success");
-        this.setState({ isLoading: true });
-        let data = getProducts();
-        data
-          .then((pro) => {
-            this.setState({ isLoading: false, products: pro });
-          })
-          .catch(console.error);
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire("Cancelado", "El producto no ha sido eliminado", "error");
-      }
-    });
-
-            */
+           
      }
    render() {
        const {isLoading,products} = this.state;
@@ -102,7 +81,7 @@ export default class List extends Component {
                {
                 renderForm()   
                }
-               <div>
+               <div className='container-sm'>
                    <table className='table table-hover table-bordered'>
                     <thead>
                         <tr>
@@ -121,6 +100,7 @@ export default class List extends Component {
                    }
                    </tbody>
                   </table>
+
                </div>
               
            </React.Fragment>
